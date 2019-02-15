@@ -8,6 +8,7 @@ get '/' do
 end
 
 get '/about' do
+	@error = "something wrong!"
 	erb :about
 end
 
@@ -20,6 +21,11 @@ post '/visit' do
 	@phone = params[:phone]
 	@datetime = params[:datetime]
 	@barber = params[:barber]
-	@color = params[:color]	
+	@color = params[:color]		
+
+	if @username == ''
+		@error = 'Введите имя'
+		return erb :visit
+	end
 	erb "ОК, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 end
