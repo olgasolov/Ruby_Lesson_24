@@ -30,18 +30,12 @@ post '/visit' do
 
 	# для каждой пары ключ-значение
 
-	hh.each do |key, value|
-		# если параметр пуст
-		if params[key] == ''
-			# переменной error присвоить value из хеша
-			# (а value из хеша hh - это сообщение об ошибке)
-			# т.е. переменной error присвоить сообщение об ошибке
-			@error = hh[key]
+	@error = hh.select {|key,_| params[key] == ""}.values.join(", ")
 
-			# вернуть представление :visit
-			return erb :visit
-		end
-	end
+	if @error != '' 
+		return erb :visit
+	end	
 	
 	erb "ОК, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 end
+
