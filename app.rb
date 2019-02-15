@@ -23,20 +23,25 @@ post '/visit' do
 	@barber = params[:barber]
 	@color = params[:color]		
 
-	if @username == ''
-		@error = 'Введите имя'
-	end
+	# хеш
+	hh= { :username => 'Введите имя', 
+	      :phone => 'Введите телефон', 
+	      :datetime => 'Введите дату и время' }
 
-	if @phone == ''
-		@error = 'Введите номер телефона'
-	end
+	# для каждой пары ключ-значение
 
-	if @datetime == ''
-		@error = 'Неправильная дата и время'
-	end
+	hh.each do |key, value|
+		# если параметр пуст
+		if params[key] == ''
+			# переменной error присвоить value из хеша
+			# (а value из хеша hh - это сообщение об ошибке)
+			# т.е. переменной error присвоить сообщение об ошибке
+			@error = hh[key]
 
-	if @error != ''
-		return erb :visit
+			# вернуть представление :visit
+			return erb :visit
+		end
 	end
+	
 	erb "ОК, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 end
